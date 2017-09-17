@@ -12,12 +12,3 @@ ABL(trivial implementation) is 20%-45% faster than StringBuilder when buffer siz
 ![Image](benchmark-results/4-buffers.png?raw=true)
 
 (raw data can be found in [here](benchmark-results/))
-
-### TODOs:
-1. complete warmup before testing, instead of warming up before each test
-1. reuse byte buffers
-1. add StringBuffer comparison
-1. add Netty Buffer comparison
-1. add ArrayList IAppendableBufferList implementation
-1. add single ended linked list IAppendableBufferList implementation
-1. add multi-threaded runner
