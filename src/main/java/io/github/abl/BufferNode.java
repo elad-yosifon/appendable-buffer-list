@@ -1,3 +1,5 @@
+package io.github.abl;
+
 public class BufferNode {
 
     final char[] content;

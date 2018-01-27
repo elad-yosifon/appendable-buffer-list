@@ -1,3 +1,5 @@
+package io.github.abl;
+
 import org.junit.Assert;
 import org.junit.Test;
 
