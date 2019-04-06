@@ -26,20 +26,20 @@ public class Benchmarks {
 
     @Benchmark
     public String StringBuilder(Data data) {
-        char[][] strings = data.chars;
+        String[] strings = data.strings;
         StringBuilder stringBuilder = new StringBuilder();
-        for (char[] string : strings) {
-            stringBuilder.append(string, 0, string.length);
+        for (String string : strings) {
+            stringBuilder.append(string, 0, string.length());
         }
         return stringBuilder.toString();
     }
 
     @Benchmark
     public String AppendableBufferLinkedList(Data data) {
-        char[][] strings = data.chars;
+        String[] strings = data.strings;
         IAppendableBufferList abl = AppendableBufferLinkedList.create();
-        for (char[] string : strings) {
-            abl.add(string, string.length);
+        for (String string : strings) {
+            abl.add(string.getBytes(), string.length());
         }
         return new String(abl.join());
     }
@@ -53,22 +53,22 @@ public class Benchmarks {
         @Param({"1", "2", "4", "8", "16", "32", "64", "128", "256", "512", "1024", "2048", "4096", "8192", "16384", "32768"})
         int sizeOfBuffers;
 
-        char[][] chars;
+        String[] strings;
 
         @Setup
         public void setup() {
-            chars = new char[numberOfBuffers][];
+            strings = new String[numberOfBuffers];
             for (int i = 0; i < numberOfBuffers; i++) {
-                chars[i] = newArray(sizeOfBuffers);
+                strings[i] = newString(sizeOfBuffers);
             }
         }
 
-        private static char[] newArray(int i) {
-            char[] chars = new char[i];
+        private static String newString(int i) {
+            byte[] bytes = new byte[i];
             while (--i >= 0) {
-                chars[i] = '.';
+                bytes[i] = '.';
             }
-            return chars;
+            return new String(bytes);
         }
     }
 }

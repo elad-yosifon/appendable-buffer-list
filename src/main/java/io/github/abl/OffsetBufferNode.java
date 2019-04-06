@@ -1,19 +1,23 @@
 package io.github.abl;
 
-public class BufferNode implements IBufferNode {
+import java.util.Arrays;
+
+public class OffsetBufferNode implements IBufferNode {
 
     private final byte[] content;
+    private final int offset;
     private final int byteLength;
 
-    public BufferNode(byte[] content, int byteLength) {
-        validate(content, byteLength);
+    public OffsetBufferNode(byte[] content, int offset, int length) {
+        validate(content, offset, length);
         this.content = content;
-        this.byteLength = byteLength;
+        this.offset = offset;
+        this.byteLength = length;
     }
 
     @Override
     public void copyOnto(byte[] buffer, int cursor) {
-        System.arraycopy(content, 0, buffer, cursor, byteLength);
+        System.arraycopy(content, offset, buffer, cursor, byteLength);
     }
 
     @Override
@@ -21,11 +25,11 @@ public class BufferNode implements IBufferNode {
         return byteLength;
     }
 
-    private static void validate(byte[] content, int length) {
+    private static void validate(byte[] content, int offset, int length) {
         if (length < 1) {
             throw new IllegalStateException("Content length should be greater than 0");
         }
-        if (length > content.length) {
+        if (length > (content.length - offset)) {
             throw new IllegalStateException("Declared content length should be less than or equal to the actual content length");
         }
     }
