@@ -1,3 +1,5 @@
+package io.github.abl;
+
 import java.util.LinkedList;
 
 public class AppendableBufferLinkedList extends LinkedList<BufferNode> implements IAppendableBufferList {
