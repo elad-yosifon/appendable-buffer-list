@@ -1,4 +1,4 @@
-package io.github.abl;
+package io.github.ifc;
 
 public interface IBufferNode {
     void copyOnto(byte[] buffer, int cursor);

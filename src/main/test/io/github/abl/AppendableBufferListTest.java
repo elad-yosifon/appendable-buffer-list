@@ -1,16 +1,15 @@
 package io.github.abl;
 
-import io.github.abl.impl.AppendableBufferLinkedList;
+import io.github.abl.impl.AppendableBufferList;
+import io.github.ifc.IAppendableBufferList;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.nio.charset.Charset;
-
-public class AppendableBufferLinkedListTest {
+public class AppendableBufferListTest {
 
     @Test
     public void testBasicByteConcatenation() throws Exception {
-        IAppendableBufferList appendableByteLinkedList = AppendableBufferLinkedList.create();
+        IAppendableBufferList appendableByteLinkedList = AppendableBufferList.create();
         appendableByteLinkedList.add("a".getBytes());
         appendableByteLinkedList.add("b".getBytes());
         Assert.assertEquals("ab", appendableByteLinkedList.joinAsString());
@@ -18,7 +17,7 @@ public class AppendableBufferLinkedListTest {
 
     @Test
     public void testOffsetByteConcatenation() throws Exception {
-        IAppendableBufferList appendableByteLinkedList = AppendableBufferLinkedList.create();
+        IAppendableBufferList appendableByteLinkedList = AppendableBufferList.create();
         appendableByteLinkedList.add("abcd".getBytes(),1);
         appendableByteLinkedList.add("abcd".getBytes(), 1,1);
         Assert.assertEquals("ab", appendableByteLinkedList.joinAsString());
@@ -26,7 +25,7 @@ public class AppendableBufferLinkedListTest {
 
     @Test
     public void testBasicStringConcatenation() throws Exception {
-        IAppendableBufferList appendableByteLinkedList = AppendableBufferLinkedList.create();
+        IAppendableBufferList appendableByteLinkedList = AppendableBufferList.create();
         appendableByteLinkedList.add("a");
         appendableByteLinkedList.add("b");
         Assert.assertEquals("ab", appendableByteLinkedList.joinAsString());
@@ -34,7 +33,7 @@ public class AppendableBufferLinkedListTest {
 
     @Test
     public void testOffsetStringConcatenation() throws Exception {
-        IAppendableBufferList appendableByteLinkedList = AppendableBufferLinkedList.create();
+        IAppendableBufferList appendableByteLinkedList = AppendableBufferList.create();
         appendableByteLinkedList.add("abcd",1);
         appendableByteLinkedList.add("abcd", 1,1);
         Assert.assertEquals("ab", appendableByteLinkedList.joinAsString());
@@ -42,7 +41,7 @@ public class AppendableBufferLinkedListTest {
 
     @Test
     public void testPartialByteConcatenation() throws Exception {
-        IAppendableBufferList appendableByteLinkedList = AppendableBufferLinkedList.create();
+        IAppendableBufferList appendableByteLinkedList = AppendableBufferList.create();
 
         appendableByteLinkedList.add("ab".getBytes(), 1);
         appendableByteLinkedList.add("cd".getBytes());
@@ -58,7 +57,7 @@ public class AppendableBufferLinkedListTest {
 
     @Test
     public void testPartialStringConcatenation() throws Exception {
-        IAppendableBufferList appendableByteLinkedList = AppendableBufferLinkedList.create();
+        IAppendableBufferList appendableByteLinkedList = AppendableBufferList.create();
 
         appendableByteLinkedList.add("ab", 1);
         appendableByteLinkedList.add("cd");
@@ -74,7 +73,7 @@ public class AppendableBufferLinkedListTest {
 
     @Test
     public void testPartialMixedConcatenation() throws Exception {
-        IAppendableBufferList appendableByteLinkedList = AppendableBufferLinkedList.create();
+        IAppendableBufferList appendableByteLinkedList = AppendableBufferList.create();
 
         appendableByteLinkedList.add("ab".getBytes(), 1);
         appendableByteLinkedList.add("cd");

@@ -1,6 +1,6 @@
 package io.github.abl.impl.node;
 
-import io.github.abl.IBufferNode;
+import io.github.ifc.IBufferNode;
 
 public class ByteBufferOffsetNode implements IBufferNode {
 

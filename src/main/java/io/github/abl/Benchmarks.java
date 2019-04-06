@@ -1,6 +1,7 @@
 package io.github.abl;
 
-import io.github.abl.impl.AppendableBufferLinkedList;
+import io.github.abl.impl.AppendableBufferList;
+import io.github.ifc.IAppendableBufferList;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
@@ -30,7 +31,7 @@ public class Benchmarks {
         String[] strings = data.strings;
         StringBuilder stringBuilder = new StringBuilder();
         for (String string : strings) {
-            stringBuilder.append(string, 0, string.length());
+            stringBuilder.append(string);
         }
         return stringBuilder.toString();
     }
@@ -38,11 +39,21 @@ public class Benchmarks {
     @Benchmark
     public String AppendableBufferLinkedList(Data data) {
         String[] strings = data.strings;
-        IAppendableBufferList abl = AppendableBufferLinkedList.create();
+        IAppendableBufferList abl = AppendableBufferList.create();
         for (String string : strings) {
-            abl.add(string.getBytes(), string.length());
+            abl.add(string);
         }
-        return new String(abl.join());
+        return abl.joinAsString();
+    }
+
+    @Benchmark
+    public String AppendableBufferArrayList(Data data) {
+        String[] strings = data.strings;
+        IAppendableBufferList abl = AppendableBufferList.createArrayList();
+        for (String string : strings) {
+            abl.add(string);
+        }
+        return abl.joinAsString();
     }
 
     @State(Scope.Benchmark)

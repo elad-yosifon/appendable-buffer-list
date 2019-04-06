@@ -1,29 +1,36 @@
 package io.github.abl.impl;
 
-import io.github.abl.IAppendableBufferList;
-import io.github.abl.IBufferNode;
+import io.github.ifc.IAppendableBufferList;
+import io.github.ifc.IAppendableBufferStorage;
+import io.github.ifc.IBufferNode;
 import io.github.abl.impl.node.ByteBufferNode;
 import io.github.abl.impl.node.ByteBufferOffsetNode;
 import io.github.abl.impl.node.StringBufferOffsetNode;
 import io.github.abl.impl.node.StringBufferNode;
+import io.github.abl.impl.storage.AppendableBufferArrayList;
+import io.github.abl.impl.storage.AppendableBufferLinkedList;
 
-import java.util.LinkedList;
+public class AppendableBufferList implements IAppendableBufferList {
 
-public class AppendableBufferLinkedList extends LinkedList<IBufferNode> implements IAppendableBufferList {
+    private int byteLength = 0;
+    private IAppendableBufferStorage storage;
 
-    private int byteLength;
+    private AppendableBufferList(IAppendableBufferStorage storage) {
+        this.storage = storage;
+    }
 
-    private AppendableBufferLinkedList() {
+    public static IAppendableBufferList createArrayList() {
+        return new AppendableBufferList(new AppendableBufferArrayList());
     }
 
     public static IAppendableBufferList create() {
-        return new AppendableBufferLinkedList();
+        return new AppendableBufferList(new AppendableBufferLinkedList());
     }
 
     @Override
     public boolean add(IBufferNode node) {
         this.byteLength += node.byteLength();
-        return super.add(node);
+        return this.storage.add(node);
     }
 
     @Override
@@ -60,7 +67,7 @@ public class AppendableBufferLinkedList extends LinkedList<IBufferNode> implemen
     public byte[] join() {
         byte[] buffer = new byte[byteLength];
         int cursor = 0;
-        for (IBufferNode node : this) {
+        for (IBufferNode node : this.storage) {
             node.copyOnto(buffer, cursor);
             cursor += node.byteLength();
         }
