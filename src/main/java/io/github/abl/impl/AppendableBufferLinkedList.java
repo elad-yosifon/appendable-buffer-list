@@ -1,4 +1,11 @@
-package io.github.abl;
+package io.github.abl.impl;
+
+import io.github.abl.IAppendableBufferList;
+import io.github.abl.IBufferNode;
+import io.github.abl.impl.node.ByteBufferNode;
+import io.github.abl.impl.node.ByteBufferOffsetNode;
+import io.github.abl.impl.node.StringBufferOffsetNode;
+import io.github.abl.impl.node.StringBufferNode;
 
 import java.util.LinkedList;
 
@@ -20,23 +27,33 @@ public class AppendableBufferLinkedList extends LinkedList<IBufferNode> implemen
     }
 
     @Override
+    public boolean add(byte[] node) {
+        return this.add(new ByteBufferNode(node, node.length));
+    }
+
+    @Override
     public boolean add(byte[] node, int length) {
-        return this.add(new BufferNode(node, length));
+        return this.add(new ByteBufferNode(node, length));
     }
 
     @Override
     public boolean add(byte[] node, int offset, int length) {
-        return this.add(new OffsetBufferNode(node, offset, length));
+        return this.add(new ByteBufferOffsetNode(node, offset, length));
     }
 
     @Override
-    public boolean add(String node, int byteLength) {
-        return this.add(new BufferNode(node.getBytes(), byteLength));
+    public boolean add(String node) {
+        return this.add(new StringBufferNode(node, node.length()));
     }
 
     @Override
-    public boolean add(String node, int byteOffset, int byteLength) {
-        return this.add(new OffsetBufferNode(node.getBytes(), byteOffset, byteLength));
+    public boolean add(String node, int length) {
+        return this.add(new StringBufferNode(node, length));
+    }
+
+    @Override
+    public boolean add(String node, int offset, int length) {
+        return this.add(new StringBufferOffsetNode(node, offset, length));
     }
 
     @Override

@@ -1,5 +1,6 @@
 package io.github.abl;
 
+import io.github.abl.impl.AppendableBufferLinkedList;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
@@ -55,20 +56,20 @@ public class Benchmarks {
 
         String[] strings;
 
-        @Setup
-        public void setup() {
-            strings = new String[numberOfBuffers];
-            for (int i = 0; i < numberOfBuffers; i++) {
-                strings[i] = newString(sizeOfBuffers);
-            }
-        }
-
         private static String newString(int i) {
             byte[] bytes = new byte[i];
             while (--i >= 0) {
                 bytes[i] = '.';
             }
             return new String(bytes);
+        }
+
+        @Setup
+        public void setup() {
+            strings = new String[numberOfBuffers];
+            for (int i = 0; i < numberOfBuffers; i++) {
+                strings[i] = newString(sizeOfBuffers);
+            }
         }
     }
 }
