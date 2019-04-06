@@ -2,11 +2,11 @@ package io.github.abl;
 
 public class BufferNode {
 
-    final char[] content;
-    final int contentLength;
+    private final char[] content;
+    private final int contentLength;
 
     public BufferNode(char[] content, int contentLength) {
-        // TODO: ensure byte[] size matches length
+        validate(content, contentLength);
         this.content = content;
         this.contentLength = contentLength;
     }
@@ -17,5 +17,14 @@ public class BufferNode {
 
     public int getContentLength() {
         return contentLength;
+    }
+
+    private static void validate(char[] content, int contentLength) {
+        if (contentLength < 1) {
+            throw new IllegalStateException("Content length should be greater than 0");
+        }
+        if (contentLength > content.length) {
+            throw new IllegalStateException("Declared content length should be less than or equal to the actual content length");
+        }
     }
 }
