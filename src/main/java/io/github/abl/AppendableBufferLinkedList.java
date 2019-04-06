@@ -28,7 +28,7 @@ public class AppendableBufferLinkedList extends LinkedList<BufferNode> implement
     @Override
     public char[] join() {
         char[] buffer = new char[contentLength];
-        int    cursor = 0;
+        int cursor = 0;
         for (BufferNode node : this) {
             System.arraycopy(node.getContent(), 0, buffer, cursor, node.getContentLength());
             cursor += node.getContentLength();

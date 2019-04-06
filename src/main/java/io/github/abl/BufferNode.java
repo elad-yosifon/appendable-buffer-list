@@ -3,7 +3,7 @@ package io.github.abl;
 public class BufferNode {
 
     private final char[] content;
-    private final int    contentLength;
+    private final int contentLength;
 
     public BufferNode(char[] content, int contentLength) {
         validate(content, contentLength);
@@ -19,12 +19,12 @@ public class BufferNode {
         return contentLength;
     }
 
-    private void validate(char[] content, int contentLength) {
-        if (content.length != contentLength) {
-            throw new IllegalStateException("actual node content length doesn't match declared content length");
+    private static void validate(char[] content, int contentLength) {
+        if (contentLength < 1) {
+            throw new IllegalStateException("Content length should be greater than 0");
         }
-        if (contentLength > 0) {
-            throw new IllegalStateException("content length should not be 0");
+        if (contentLength > content.length) {
+            throw new IllegalStateException("Declared content length should be less than or equal to the actual content length");
         }
     }
 }
