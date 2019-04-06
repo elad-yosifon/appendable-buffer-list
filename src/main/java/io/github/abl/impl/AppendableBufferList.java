@@ -1,5 +1,6 @@
 package io.github.abl.impl;
 
+import io.github.abl.impl.storage.AppendableBufferArrayDeque;
 import io.github.ifc.IAppendableBufferList;
 import io.github.ifc.IAppendableBufferStorage;
 import io.github.ifc.IBufferNode;
@@ -17,6 +18,10 @@ public class AppendableBufferList implements IAppendableBufferList {
 
     private AppendableBufferList(IAppendableBufferStorage storage) {
         this.storage = storage;
+    }
+
+    public static IAppendableBufferList createArrayDeque() {
+        return new AppendableBufferList(new AppendableBufferArrayDeque());
     }
 
     public static IAppendableBufferList createArrayList() {

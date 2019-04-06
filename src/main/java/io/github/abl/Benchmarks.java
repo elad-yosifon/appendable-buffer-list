@@ -56,6 +56,16 @@ public class Benchmarks {
         return abl.joinAsString();
     }
 
+    @Benchmark
+    public String AppendableBufferArrayDeque(Data data) {
+        String[] strings = data.strings;
+        IAppendableBufferList abl = AppendableBufferList.createArrayDeque();
+        for (String string : strings) {
+            abl.add(string);
+        }
+        return abl.joinAsString();
+    }
+
     @State(Scope.Benchmark)
     public static class Data {
 

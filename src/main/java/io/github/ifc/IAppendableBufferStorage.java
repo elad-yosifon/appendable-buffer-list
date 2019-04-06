@@ -1,5 +1,5 @@
 package io.github.ifc;
 
-import java.util.List;
+import java.util.Collection;
 
-public interface IAppendableBufferStorage extends List<IBufferNode> {}
+public interface IAppendableBufferStorage extends Collection<IBufferNode> {}
