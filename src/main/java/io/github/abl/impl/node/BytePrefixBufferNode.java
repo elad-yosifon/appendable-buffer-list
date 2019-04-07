@@ -4,31 +4,29 @@ import io.github.ifc.IBufferNode;
 
 import java.util.Arrays;
 
-public class ByteBufferOffsetNode implements IBufferNode {
+public class BytePrefixBufferNode implements IBufferNode {
 
     private final byte[] content;
-    private final int offset;
     private final int byteLength;
 
-    public ByteBufferOffsetNode(byte[] content, int offset, int length) {
-        validate(content, offset, length);
+    public BytePrefixBufferNode(byte[] content, int byteLength) {
+        validate(content, byteLength);
         this.content = content;
-        this.offset = offset;
-        this.byteLength = length;
+        this.byteLength = byteLength;
     }
 
-    private static void validate(byte[] content, int offset, int length) {
+    private static void validate(byte[] content, int length) {
         if (length < 1) {
             throw new IllegalStateException("Content length should be greater than 0");
         }
-        if (length > (content.length - offset)) {
+        if (length > content.length) {
             throw new IllegalStateException("Declared content length should be less than or equal to the actual content length");
         }
     }
 
     @Override
     public byte[] bytes() {
-        return Arrays.copyOfRange(content, offset, offset + byteLength);
+        return Arrays.copyOfRange(content,0, byteLength);
     }
 
     @Override

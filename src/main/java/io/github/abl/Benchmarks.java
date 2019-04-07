@@ -12,9 +12,10 @@ import java.util.concurrent.TimeUnit;
 
 @OperationsPerInvocation(value = 1_000_000)
 @OutputTimeUnit(TimeUnit.NANOSECONDS)
-@Warmup(iterations = 1, timeUnit = TimeUnit.NANOSECONDS, batchSize = 1)
-@Measurement(iterations = 1, timeUnit = TimeUnit.NANOSECONDS, batchSize = 1)
+@Warmup(iterations = 25, timeUnit = TimeUnit.MILLISECONDS, batchSize = 1, time = 1)
+@Measurement(iterations = 25, timeUnit = TimeUnit.MILLISECONDS, batchSize = 1, time = 1)
 @Fork(value = 1)
+@Threads(value = 1)
 @BenchmarkMode(Mode.AverageTime)
 public class Benchmarks {
 
@@ -38,30 +39,30 @@ public class Benchmarks {
 
     @Benchmark
     public String AppendableBufferLinkedList(Data data) {
-        String[] strings = data.strings;
         IAppendableBufferList abl = AppendableBufferList.create();
-        for (String string : strings) {
-            abl.add(string);
+        byte[][] bytes = data.bytes;
+        for (byte[] buf : bytes) {
+            abl.add(buf);
         }
         return abl.joinAsString();
     }
 
     @Benchmark
     public String AppendableBufferArrayList(Data data) {
-        String[] strings = data.strings;
         IAppendableBufferList abl = AppendableBufferList.createArrayList();
-        for (String string : strings) {
-            abl.add(string);
+        byte[][] bytes = data.bytes;
+        for (byte[] buf : bytes) {
+            abl.add(buf);
         }
         return abl.joinAsString();
     }
 
     @Benchmark
     public String AppendableBufferArrayDeque(Data data) {
-        String[] strings = data.strings;
         IAppendableBufferList abl = AppendableBufferList.createArrayDeque();
-        for (String string : strings) {
-            abl.add(string);
+        byte[][] bytes = data.bytes;
+        for (byte[] buf : bytes) {
+            abl.add(buf);
         }
         return abl.joinAsString();
     }
@@ -69,13 +70,14 @@ public class Benchmarks {
     @State(Scope.Benchmark)
     public static class Data {
 
-        @Param({"2", "4"})
+        @Param({"2", "4", "8", "16", "32", "64", "128", "256", "512", "1024"})
         int numberOfBuffers;
 
         @Param({"1", "2", "4", "8", "16", "32", "64", "128", "256", "512", "1024", "2048", "4096", "8192", "16384", "32768"})
         int sizeOfBuffers;
 
         String[] strings;
+        byte[][] bytes;
 
         private static String newString(int i) {
             byte[] bytes = new byte[i];
@@ -85,11 +87,21 @@ public class Benchmarks {
             return new String(bytes);
         }
 
+        private static byte[] newByteArray(int i) {
+            byte[] bytes = new byte[i];
+            while (--i >= 0) {
+                bytes[i] = '.';
+            }
+            return bytes;
+        }
+
         @Setup
         public void setup() {
             strings = new String[numberOfBuffers];
+            bytes = new byte[numberOfBuffers][];
             for (int i = 0; i < numberOfBuffers; i++) {
                 strings[i] = newString(sizeOfBuffers);
+                bytes[i] = newByteArray(sizeOfBuffers);
             }
         }
     }
